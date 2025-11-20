@@ -13,7 +13,7 @@ Un outlier es un valor que se aleja significativamente del comportamiento genera
 ---
 
 ### El boxplot utiliza el rango intercuartílico:
-**IQR (Interquartile Range) = Rango Intercuartílico**
+-> **IQR (Interquartile Range) = Rango Intercuartílico**
 
 Que es simplemente la diferencia entre dos números importantes:
 - Q1 -> el valor debajo del cual está el 25% de los datos
@@ -56,3 +56,15 @@ plt.title(f"Boxplot de {col}")
 plt.ylabel(col)
 plt.show()
 ```
+
+## Regla de Tukey
+Es una regla que define cuándo un dato es atípico comparándolo contra el rango donde viven “la mayoría” de los valores.
+Se establecen límites por los cuales los valores, en caso de superarlos, serán outliers.
+
+**Un valor será outlier** si su valor está: 
+- por debajo de: Q1 – 1.5 * IQR
+- por encima de: Q3 + 1.5 × IQR
+
+**¿De dónde sale el 1.5?**
+Es una regla empírica propuesta por John Tukey para boxplots.
+Funciona bien para la mayoría de las distribuciones no normales pero razonablemente “estables”.
