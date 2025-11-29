@@ -76,10 +76,11 @@ En esta sección voy a ir tildando cosas que no sabía o a lo mejor no tenía ta
 - Freeze: Se queda un bloque de información estático mientras scrolleás.
 - Window: División del worksheet para trabajar con 2 pantallas simultáneas.
 
-### Shortcuts
+### Shortcuts / Calidad de vida
 - Ctrl + Home/End: Te lleva a la primera o última celda con contenido de la sheet. Si durante esta acción se mantiene el Shift previamente se seleccionará todo aquello que tenga contenido.
 - F4: Asigna el valor absoluto de una celda (`$`)
 - Para utilizar el shortcut de doble clickear una fórmula para replicarla debajo, la celda se guía en la columna que tiene a su izquierda, donde ello sería lo que le pone el límite a la escritura.
+- Para eliminar las fórmulas dejando únicamente los valores, se pueden copiar todas las celdas y pegar únicamente los valores en una misma acción.
 
 ### Filtering & Sorting
 Estas funcionalidades se aplican sobre toda la columna en la cual el cursor esté seleccionado una única celda.
@@ -105,3 +106,65 @@ Esta manera de usar las funciones es super intuitiva y fácil.
 - COUNT: Cuenta si hay valores numéricos.
 - COUNTA: Cuenta si hay cualquier tipo de contenido
 - COUNTBLANK: Cuenta las celdas vacías  
+
+## Preparando datos en Excel para el análisis
+En esta sección se abarca la preparación de datos en Excel.
+
+### Errores comunes
+Podemos identificar errores comunes a la hora de limpiar datos, tales como:
+- Errores de tipeo
+- Carácteres y espacios inneccesarios
+- Ubicación de información errónea
+- Incosistencias en el esquema de la worksheet
+- Abreviaciones y acrónimos (no se recomiendan)
+- Cuidado con el manejo de tiempo y fecha
+- Información duplicada 
+
+### Maneras interesantes de lidiar con esos problemas
+En las funciones que colaboran en la limpieza de datos, encontramos:
+- **Extracción de texto**: LEFT, RIGHT y MID/EXTRAE. En LEFT y RIGHT son requeridos 2 argumentos, especificamente la celda de donde comienza a extraer texto y donde finaliza (comienza en el 1). Y en MID, se requiere celda, posición y finalización.
+- **Eliminación de espacios**: TRIM/ESPACIOS elimina los espacios innecesarios (no más de 2 entre palabras)
+- **Mayúsculas y minúsculas**: LOWER, UPPER y PROPER/NOMPROPIO (capitalización de letras)
+- **Concatenación**: CONCAT() (funciona exactamente igual que un `print()`)
+
+### Manejo de tiempo y fechas
+El manejo de tiempo y fechas en Excel es fundamental cuando del negocio se habla por una variedad de factores.
+
+**Composición de fechas en Excel**
+
+Las fechas en Excel de manera interna son compuestas por un número entero, llamado **Serial Number**. El número aumenta 1 cada 24 horas.\
+Ej: `05/11/23 -> 45057` 
+
+Algo positivo de este enfoque, es que se pueden realizar operaciones entre los números.\
+Ej: `05/11/23 - 03/11/23 = 2`
+
+> Dato curioso: Microsoft creyó que 1900 era bisiesto, por lo que las fechas están erróneas técnicamente. Apple, queriendo evitar esta falla informática, comenzó la cuenta de los Serial Numbers desde 1904, por lo que cuando se pase un archivo de Excel de Windows a Mac puede suceder que las fechas estén atrasadas 4 años y un día.
+
+**Funciones de fechas**
+
+- **HOY/TODAY**: Para obtener la fecha actual del sistema.
+- **NOW**: Te da la fecha y la hora.
+- **DAY, MONTH, YEAR**: Extraen el valor con respecto a una fecha.
+- **DATE**: Con ello formás una fecha.
+- **NETWORKDAYS**: Cantidad de días hábiles desde una fecha a otra (sin fines de semana). El tercer argumento permite agregar días feriados.
+- **DATEDIF**: Diferencia entre fechas. El primer y segundo argumento son las fechas, y el tercero es lo que querés diferenciar, por ejemplo `"y"`.
+
+### Funciones y operadores lógicos
+Donde se contienen las típicas bases de todo sistema informático.
+
+**Operadores lógicos**
+
+- Mayor (>) o menor (<) que.
+- Distinto de (<>).
+- Igual a (=).
+- Mayores/menores iguales.
+
+**Funciones** 
+
+- **IF/SI**: Esta función asigna una comparación lógica en el primer argumento, y en los próximos 2 se asignarán los valores a devolver si `True` o `False` respectivamente.
+- **IFS**: Permite tener varios comparadores, donde sigue la secuencia de `Comparador -> Resultado; Comparador -> Resultado...`
+- **AND/OR**: Estas funciones permiten realizar comparaciones lógicas simultáneas. Devuelven únicamente `True` o `False`.  
+- **SUMIF**: Suma basado en un criterio. Primero se coloca el rango del criterio, el criterio en si mismo y finalmente el rango de valores a sumar.\
+Ej: `=SUMIF(B2:B24,”seattle”,G2:G24)`.
+- **AVERAGEIF, COUNTIF...**: Funcionan exactamente igual a SUMIF().
+
