@@ -36,17 +36,9 @@ previa realizada.
 - Para la entrevista, podemos utilizar el **STAR method**: Situation -> Task -> Action -> Result.
 
 ## Ejemplos de preguntas típicas.
-- **Cuéntanos sobre tí**: Mi nombre es Tiziano Longo, soy un aspirante del area de los datos, específicamente en la ingeniería
-de datos. Luego de trabajar en proyectos personales durante unos 5 meses, me encuentro motivado para avanzar y aprender más
-de la realidad del rubro, con el objetivo de incorporarme a un equipo y poder desarrollar tareas como creación de pipelines,
-diseñado de bases de datos y repositorios, optimización de procesos, entre otros.
-- **What attracted you to the field of data science**: Lo que me atrajo a este sector fue la enorme cantidad de oportunidades
-y beneficios que se le pueden sacar a los datos, con un mundo en constante avance donde el crecimiento de la información
-es exponencial, y con ello el aprovechamiento de este mismo "combustible" (como se le dice hoy) que es cada vez más valioso y
-requiere de profesionales que sepan administrarlos y exprimirlos.
-- **What was your favorite previous project and why did you like it**: Mi proyecto más grande y preferido fue el realizar un programa
-que permita la automatización de muchísimos procesos que estaban en mi trabajo como cajero en un bar. Fue mi favorito debido a
-que disfruté del analizar la problemática de manera individual y proveer una solución a ello de manera independiente.
+- **Cuéntanos sobre tí**: Mi nombre es Tiziano Longo, soy un aspirante del area de los datos, específicamente en la ingeniería de datos. Luego de trabajar en proyectos personales durante unos 5 meses, me encuentro motivado para avanzar y aprender más de la realidad del rubro, con el objetivo de incorporarme a un equipo y poder desarrollar tareas como creación de pipelines, diseñado de bases de datos y repositorios, optimización de procesos, entre otros.
+- **What attracted you to the field of data science**: Lo que me atrajo a este sector fue la enorme cantidad dev oportunidadesy beneficios que se le pueden sacar a los datos, con un mundo en constante avance donde el crecimiento de la información es exponencial, y con ello el aprovechamiento de este mismo "combustible" (como se le dice hoy) que es cada vez más valioso y requiere de profesionales que sepan administrarlos y exprimirlos.
+- **What was your favorite previous project and why did you like it**: Mi proyecto más grande y preferido fue el realizar un programa qe permita la automatización de muchísimos procesos que estaban en mi trabajo como cajero en un bar. Fue mi favorito debido a que disfruté del analizar la problemática de manera individual y proveer una solución a ello de manera independiente.
 
 ## Factores que pueden alterar la entrevista.
 - Los factores que pueden alterar la entrevista suelen ser el tamaño, la cultura, número de posiciones a rellenar, tipo
@@ -58,9 +50,7 @@ de posición...
     del puesto.
 
 ## Entrevista técnica.
-- En la entrevista técnica, debido a que soy un ingeniero de datos, es posible que me pregunten sobre manipulación de datos ETL con
-distintos frameworks, por lo que es de valor tener conocimeinto sobre distintos tipos de archivos y repositorios, de manera tal que
-no fallar el ejercicio simplemente por no saber manejar un parquet.
+- En la entrevista técnica, debido a que soy un ingeniero de datos, es posible que me pregunten sobre manipulación de datos ETL con distintos frameworks, por lo que es de valor tener conocimeinto sobre distintos tipos de archivos y repositorios, de manera tal de no fallar el ejercicio simplemente por no saber manejar un parquet.
 - También pueden meterme algo de bash, visualizaciones...
 - Por sobre todo SQL. Tengo que tener un nivel de SQL altísimo.
 - Cuando tengas dudas, preguntá. Y planteá una estrategia para solucionar el problema que te plantean. 

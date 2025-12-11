@@ -59,5 +59,38 @@ Buenas prácticas en la presentación de datos:
 - **Profesionales de marketing**: embudos de conversión, bar charts... gráficos que los ayuden a identificar tendencias, patrones y oportunidades de mejora.
 - **Product managers**: Un mapa que visualice la distribución que faciliten la identificación de gaps, oportunidades de mejora y problemas potenciales de productos específicos.
 
+## Power BI
+Power BI es una herramienta de Microsoft para el análisis de datos y la toma de decisiones.
+> También podés utilizar Power BI Mobile para optimizar la muestra de los gráficos en celular.
+
+### Diferencias entre Power BI Desktop y Service
+
+Mientras que uno sirve para crear los reportes, el otro se basa en la colaboración de proyectos, publicación, interacción...
+
+### Workflow de reportes en Power BI
+
+El workflow de reportes en Power BI se basa en:\
+`Importar datos -> Clean, transform, load -> Analyze and present -> Publish to Power BI Service -> Sharing (acceso, visualización...) y también tener en cuenta los dispositivos móbiles`
+
+---
+
+## The right tools for the job
+Así se llama el módulo.
+
+### Enterprise Resource Planning (ERP)
+
+Están diseñados para recolectar, retener, manejar e interpretar datos provenientes de diversas actividades de negocio. Estos datos están estructurados en un formato y repositorio, típicamente una base de datos.
+
+### Maneras de evaluar las ventas
+
+**Preguntas a hacerse**
+- Are sales generally showing a downward or upward trend? 
+- Are there seasonal increases or decreases in certain categories? 
+- How do holidays or special occasions affect sales? 
+- Have sales shown variability by age, gender, income level, or customer geographic location on a product or category basis? 
+
+También ayuda mucho evaluar los momentos previous y posteriores a las ventas, a través de distintos sensores (datos semi-estructurados) y también la popularidad de la empresa a través de datos (no-estructurados).
+
+
 
 
