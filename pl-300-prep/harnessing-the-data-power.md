@@ -91,6 +91,19 @@ Están diseñados para recolectar, retener, manejar e interpretar datos provenie
 
 También ayuda mucho evaluar los momentos previous y posteriores a las ventas, a través de distintos sensores (datos semi-estructurados) y también la popularidad de la empresa a través de datos (no-estructurados).
 
+### Power Query
+Es una herramienta de Microsoft creada para el proceso ETL simple previo al análisis de datos con Power BI. En él se pueden desarrollar tareas como filtrado, eliminación de duplicados y nulos, etcétera.\
+Algo interesante de Power Query es que traquea los pasos que hacés de manera repetida para intentar simplificarlos y automatizarlso en un panel de pasos.
+
+---
+
+## Ejercicio final
+El ejercicio final del curso consta en analizar las ventas de Adventure Works para poder apoyar el lanzamiento del nuevo producto
+
+### Pasos del ejercicio
+1. Identificar stakeholders: Acá los más interesados de manera directa son el área de marketing y productos, ya que gracias a los insights generador les ayudará a tomar decisiones acerca de lo que quiere la gente y qué funciona en el mercado actual.\
+Las _costumer preferences_ son importantes para el sector de productos, porque pueden realizar estrategias en base a lo que deben ajustar de cada producto para mejorar el contento de los clientes.
+
 
 
 
