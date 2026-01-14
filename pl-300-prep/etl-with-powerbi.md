@@ -51,3 +51,10 @@ Los conectores son los que permiten la conexión entre distintas fuentes de dato
 
 > Es interesante agregar que se puede cronogramar la tasa de refresco de los datos, yendo a la página `app.powerbi.com` -> luego al reporte que interesa -> hacer clic en `Schedule Refresh`, con un máximo de 8 refreshs por día.
 
+---
+
+**Recomendaciones a la hora de trabajar con columnas**
+
+1. Preparación de datos eficiente: Luego del EDA exploratorio, intentar reducir el dataset a lo que a vos te sirve. 
+2. Mejorar la lectura del dataset: Esto abarca cosas como asignar tipos de datos coherentes y nombres claros y descriptivos.
+
