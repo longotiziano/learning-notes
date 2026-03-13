@@ -1,6 +1,39 @@
 # HTML and CSS in depth
 Primero se toca el HTML.
 
+## GET vs POST
+
+### GET request
+
+Cuando haces una GET request, los datos se envían al servidor a través de la URL (query parameters).
+
+Ejemplo:
+`site.com/login?user=admin&pass=123`
+
+Ventajas:
+- Puede ser cacheado
+- Permite guardar la URL en bookmarks
+- Permite compartir enlaces
+- Es el método estándar para obtener datos
+
+Desventajas:
+- Los datos quedan visibles en la URL
+- Límite de tamaño en la URL
+- No se recomienda para datos sensibles
+
+### POST request
+
+Cuando haces una POST request, los datos se envían al servidor dentro del body de la petición HTTP.
+
+Ventajas:
+- Permite enviar grandes cantidades de datos
+- Los datos no aparecen en la URL
+- Se usa para crear o enviar información al servidor
+
+Desventajas:
+- Normalmente no es cacheado
+- No se puede guardar o compartir fácilmente
+
 # Hyper text markup lenguage (HTML)
 
 ## Etiquetas semánticas
@@ -54,16 +87,79 @@ Por supuesto que se pueden utilizar muchas metatags al mismo tiempo, es lo comú
 
 ---
 
-## Otras tags de HTML que pueden ser útiles
-1. **Inputs**: email, tel, url, date, time, number, range, color, text, password, file, reset...
+## Inputs
+Permiten dejarle al usuario la introducción de datos y valores.
+
+### Sintaxis y tipos
+
+Podemos encontrar una gran variedad de tipos de inputs, como email, tel, url, date, time, number, range, color, text, password, file, reset...
+
+Su mayoría tiene esta sintaxis:
 ```html
 <input type="input_type" id="para_reconocer_entre_js_css" name="identificar_datos_al_servidor">
 ```
-También podemos encontrar otros como `<submit>` (con button), `<button>`, `<checkbox>` o `<radio>` que tienen parámetros adicionales.
 
-2. Siguiendo con los inputs, tenemos **label**: permite dejar un nombre encima del input.
+#### Ejemplos de inputs importantes
+
+### Radio
+Los input `radio` permiten las opciones múltiples.
+```html
+<form method="POST">
+    <fieldset id="size"> <!-- Es importante que el fieldset y los input compartan ID -->
+        <input type="radio" value="2" name="size"> 2-person table
+        <input type="radio" value="4" name="size" checked> 4-person table <!-- checked deja marcado por defecto -->
+    </fieldset>
+</form>
+```
+
+### Range
+Los input `range` permiten elegir un valor en un rango.
+```html
+<input type="range" min="0" max="100" value="50"> <!-- "value" es el valor por defecto -->
+```
+
+### Select
+Únicamente podés elegir entre opciones existentes.
+```html
+<select>
+  <option>Chrome</option>
+  <option>Firefox</option>
+</select>
+```
+
+### Validaciones client-side
+
+En caso de que NO se haga (o se haga incorrectamente) la validación de input, podemos gastar recursos del server, ya que la HTTP request ya se hizo.
+
+**Ejemplos de validaciones**:
+```html
+<input type="text" id="user" name="user" required> <!-- No puede estar vacío -->
+<input type="text" id="user" name="user" required minlength="3" maxlength="3"> <!-- Longitud requerida -->
+```
+
+---
+
+## Otras tags de HTML que pueden ser útiles
+
+### Label
+Permite dejar un nombre encima del input.
 ```html
 <label for="id_del_campo"></label> 
+```
+
+### Datalist
+Da sugerencias o autocompletado a un `<input>`.
+```html
+<label for="browser">Choose a browser:</label>
+
+<input list="browsers" id="browser" name="browser">
+
+<datalist id="browsers">
+  <option value="Chrome">
+  <option value="Firefox">
+  <option value="Safari">
+  <option value="Edge">
+</datalist>
 ```
 
 ---
