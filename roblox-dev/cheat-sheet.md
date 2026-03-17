@@ -171,3 +171,11 @@ local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection
 
 ### TweenService:Create(objeto, tweenInfo, propiedad_destino)
 Crea las animaciones. Para ejecutarlas simplemente ejecutamos `tween:Play()`.
+
+## Tipos de dato en Lua
+
+### UDim2
+`UDim2` es el tipo de dato que usa Roblox para definir tamaños y posiciones de UI. Tiene 4 valores:
+```lua
+UDim2.new(ScaleX, OffsetX, ScaleY, OffsetY)
+```
