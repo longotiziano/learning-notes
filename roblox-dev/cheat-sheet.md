@@ -94,6 +94,19 @@ MouseButton[Identificador][Accion]
 ### Activated
 Este evento es lo mismo que un MouseButton1Click, pero es compatible con gente de otras plataformas, como consolas o celulares.
 
+### RenderStepped
+Se activa cada vez que pasa un frame en el juego. Depende del jugador.
+
+---
+
+## Servicios útiles
+
+### Players
+
+### UserInputService
+
+### RunService
+
 ---
 
 ## Paradigma programático de Lua

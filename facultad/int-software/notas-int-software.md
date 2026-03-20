@@ -95,8 +95,47 @@ sed -i "s/soltero/casado/g" datos_personales_modif.txt
 wc -m datos_personales.txt # El flag -m da la cantidad de caracteres
 ```
 
-**Segundo ejercicio**:
+## 2da clase
+Hay muchas maneras de iterar en bash, por ejemplo:
+- `for`: sabés la cantidad de iteraciones.
+- `while`: no sabés la cantidad de iteraciones.
+- `until`: lo mismo que while, pero evalúa la condición luego de ejecutar la primera vez.
+
+### Pipelines
+Nos permiten utilizar la salida de un comando como entrada de otro con el símbolo `|`.
 
 ```bash
-
+cat ejemplo.txt | wc -l
 ```
+
+### grep y sed
+- `grep` es de los mejores operadores. Permite buscar desde una palabra en un único archivo hasta en un conjunto de archivos y devuelve la línea donde lo encontró.\
+Además, `grep` acepta **expresiones regulares** con la flag `-E`.
+
+- `sed` permite realizar cambios en los archivos.
+```bash
+sed -i 's/old-text/new-text/g' input.txt # Todo esto lo expliqué unas líneas arriba
+```
+
+### Expresiones regulares
+Cadenas que agrupadas sirven para realizar validaciones de texto. La idea de la clase no es que las escribas, si no que puedas leerlas.
+
+Por ejemplo:
+```bash
+a? # Una vez o ninguna
+a* # Las veces que sea (incluso ninguna)
+a+ # Al menos una vez
+a{5,9} # Entre n y m veces. Puede omitirse uno de los límites.
+```
+
+### Operadores de redirección
+Lo que hace es redirigir la salida de un script, que sería el **stdout**. En caso de que no exista el archivo, lo crea.
+- `>`: Reescribe por completo el archivo.
+- `>>`: Agrega el contenido a la última línea.
+
+También existen los operadores de entrada, que se denominan **stdin**.
+- `<`
+
+Y por último, los **stderr**, que encapsulan a los errores y excepciones. Es un logger.
+- `2>`
+- `2>>`
