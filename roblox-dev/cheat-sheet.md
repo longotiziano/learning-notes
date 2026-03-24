@@ -1,5 +1,7 @@
 # Cheat sheet de Lua y Roblox development
 
+---
+
 ## Base de datos
 Cuando accedemos a una tabla en la base de datos de Roblox y esta NO existe, la crea:
 ```lua
@@ -9,6 +11,8 @@ En este ejemplo se crea la tabla "PrimeraVez"
 
 ## Operadores
 - Los dos puntos `..` en Lua son el operador de concatenación, que une dos strings. Equivalente al `+` de Python.
+- `~=` significa "distinto de".
+---
 
 ## Buenas prácticas
 Utilizar la función `WaitForChild` para evitar errores. Esta misma pausa el código hasta que un valor especificado exista.
@@ -16,86 +20,17 @@ Utilizar la función `WaitForChild` para evitar errores. Esta misma pausa el có
 local evento = game.ReplicatedStorage:WaitForChild("MostrarInterfaz")
 ```
 
+---
+
 ## Remote events/functions
 Son los eventos/funciones en los que participa la interacción del cliente con el servidor. Evento seria si NO necesitas una respuesta, y caso contrario en la función.
 
-## Definición de funciones
-En Lua, hay 2 maneras de definir una función:   
-- Con nombre: que simplemente la llamás por el nombre
-```lua
-local function saludar()
-    print("damn")
-end
-```
-- O anónimas: que al no tener nombre, sirven para pasarlas como argumentos a otras funciones
-```lua
--- La pasas directamente como argumento
-pcall(function()
-    return store:GetAsync(key)
-end)
-
--- Es lo mismo que hacer esto:
-local function obtenerDato()
-    return store:GetAsync(key)
-end
-pcall(obtenerDato)
-```
-
-## Ejemplos de funciones y métodos
-
-### ipairs(tabla)
-Es una función de Lua para iterar sobre una tabla en orden, es básicamente un for each.
-
-### pcall(function)
-Significa **protected call**, y es lo mismo que el `try; except` de Python.
-
-### GetAsync(tabla, clave)
-Esta función devuelve un valor en base a una clave en una "tabla". Importantes las comillas, ya que las bases de datos en Roblox son ni más ni menos que JSONs.
-
-### FireClient(jugador)
-Método que usa el servidor para enviarle una señal a un cliente específico.
-
-### GetChildren(objeto)
-Devuelve todos los hijos de un objeto en forma de array numérico, tiende a combinarse con `ipairs` para ordenarlo numéricamente.
-
-### IsA(variable, "tipo_de_dato")
-Devuelve un valor booleano en caso de que el tipo de dato de la variable coincida con el asignado en el segundo parámetro.
-
-### Connect(evento, funcion) - OnClientEvent:Connect(evento, funcion)
-- Connect: Conecta un evento a una función, a la cual la consecuencia de ese evento caerá como parámetro en la función
-- OnClientEvento:Connect: Lo mismo que Connect(), pero para LocalScripts
-
 ---
 
-## Tipos de eventos
-
-### PlayerAdded - CharacterAdded
-- PlayerAdded: Se activa cuando un jugador entra al juego.
-- CharacterAdded: Se activa cuando el jugador ya tiene su personaje en el juego o este revive.
-
-### PlayerRemoving - CharacterRemoving
-- PlayerRemoving: Se activa cuando el jugador sale del juego.
-- CharacterRemoving: Se activa cuando el personaje muere o es removido
-
-### ProximityPrompt
-Evento que se ejecuta y permite interactuar con partes dentro del juego.
-
-### MouseButtons
-Sintáxis:
-```lua
-MouseButton[Identificador][Accion]
-```
-- **Identificadores**: 1 significa clic izquierdo, 2 significa derecho
-- **Acciones**:
-    1. Click: Presionado y soltado de botón completo
-    2. Down: Presionado
-    3. Up: Soltado
-
-### Activated
-Este evento es lo mismo que un MouseButton1Click, pero es compatible con gente de otras plataformas, como consolas o celulares.
-
-### RenderStepped
-Se activa cada vez que pasa un frame en el juego. Depende del jugador.
+## Tipos de datos
+- Enum: Opción de lista fija. Cosas que no están en el workspace. Ejemplo: `Enum.Material.Grass`
+- Vector3: Posiciones. Esta en R3 y son literalmente vectores.
+- Number, string, bool...
 
 ---
 
