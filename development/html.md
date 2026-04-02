@@ -238,9 +238,13 @@ Los iFrames afectan el SEO, la seguridad y el performance. Son herramientas espe
 ### Canvas
 Elemento utilizado para hacer animaciones en JS.
 
+### Scalable Vector Graphics (SVG)
+Son elementos desarrollados por cálculos matemáticos. Muy utilizado para la creación de logos y otras formas, ya que son responsive y no se pixelan ante nada.
+
 ---
 
 # Definiciones
 - Responsive: Que se adapta al tamaño del dispositivo.
 - 2D Canvas: Es una API del browser. Se utiliza con JS.
 - WebGL: Es una API del browser. Se utiliza con JS.
+- Tabindex: Es un atributo que puede ser utilizado para definir el orden en los que la tecla TAB va a navegar.
