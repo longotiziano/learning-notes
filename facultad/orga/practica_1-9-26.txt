@@ -1,0 +1,37 @@
+Restas en hexadecimal con y sin signo. 
+Representar flags NZCVP y verificar que esté en el rango de representación de 8 bits.
+
+# 1a (sin signo)
+
+## Ra - Rb
+55 - B4
+
+Paso a binario:
+- 55 -> 01010101
+- B4 -> 10110100 
+por lo tanto -B4 -> 01001011 + 1 = 01001100
+
+  01010101
++ 01001100
+  10100001
+
+N = 1, C = 0, V = 0, Z = 0, P = 0
+(está en el rango de representación de 8 bits)
+
+## Rc - Rd
+59 - 4C
+
+Paso a binario:
+- 59 -> 01011001
+- 4C -> 01001100
+por lo tanto -4C -> 10110011 + 1 = 10110100
+
+  01011001
++ 10110100
+ 100001101
+
+N = 0, C = 1, V = 0, Z = 0, P = 0
+(no está en el rango de representación de 8 bits)
+
+
+ 
