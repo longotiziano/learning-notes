@@ -2,7 +2,7 @@ package ejer
 
 import (
 	"cmp"
-	TDAPila "tdas/pila"
+	TDAPila "tps/tdas/pila"
 )
 
 // (★★★★) ♠♠ Implementar una función que ordene de manera ascendente una pila de enteros sin conocer
