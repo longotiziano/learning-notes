@@ -1,4 +1,4 @@
-module tdas
+module ejercicios
 
 go 1.25.0
 

@@ -1,13 +1,14 @@
 package cola_test
 
 import (
-	TDACola "tdas/cola"
+	TDACola "maze/tdas/cola"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 )
 
 const _MENSAJE_ERROR_COLA_VACIA = "La cola esta vacia"
+const _VOLUMEN = 60000
 
 // Funcs auxiliares
 func validarColaVacia[T any](t *testing.T, cola TDACola.Cola[T]) {
@@ -72,9 +73,8 @@ func TestTiposDeDatos(t *testing.T) {
 // Chequea el aColamiento en volumen verificando que el tope se actualice correctamente.
 func TestAColarVolumen(t *testing.T) {
 	Cola := TDACola.CrearColaEnlazada[int]()
-	volumen := 60000
 
-	for i := range volumen {
+	for i := range _VOLUMEN {
 		Cola.Encolar(i)
 		require.Equal(t, 0, Cola.VerPrimero())
 		require.False(t, Cola.EstaVacia())
@@ -84,13 +84,12 @@ func TestAColarVolumen(t *testing.T) {
 // Chequea el desaColamiento en volumen y el orden LIFO.
 func TestDesaColarVolumen(t *testing.T) {
 	Cola := TDACola.CrearColaEnlazada[int]()
-	volumen := 60000
 
-	for i := range volumen {
+	for i := range _VOLUMEN {
 		Cola.Encolar(i)
 	}
 
-	for j := range volumen {
+	for j := range _VOLUMEN {
 		require.Equal(t, j, Cola.VerPrimero())
 		obtenido := Cola.Desencolar()
 		require.Equal(t, j, obtenido)
