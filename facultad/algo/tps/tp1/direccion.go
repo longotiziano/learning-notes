@@ -1,4 +1,4 @@
-package main
+package maze
 
 // Creación de tipo de dato interno del paquete, representando las direcciones
 type direccion int

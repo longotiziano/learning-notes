@@ -1,11 +1,11 @@
-package main
+package maze
 
 import (
 	"bufio"
 	"fmt"
-	TDACola "maze/tdas/cola"
 	"strconv"
 	"strings"
+	TDACola "tdas/cola"
 )
 
 type Laberinto struct {

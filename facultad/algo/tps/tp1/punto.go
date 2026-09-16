@@ -1,4 +1,4 @@
-package main
+package maze
 
 // tipo de dato interno para representar los puntos de la matriz
 type punto struct {

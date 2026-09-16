@@ -1,7 +1,7 @@
 package pila_test
 
 import (
-	TDAPila "maze/tdas/pila"
+	TDAPila "tdas/pila"
 	"testing"
 
 	"github.com/stretchr/testify/require"
