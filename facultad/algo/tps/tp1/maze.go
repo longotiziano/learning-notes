@@ -111,7 +111,7 @@ func ResolverLaberinto(l Laberinto) ([]direccion, int, error) {
 	for !cola.EstaVacia() {
 		actual := cola.Desencolar()
 
-		if l.casillas[actual.fila][actual.col] == "E" {
+		if l.casillas[actual.fila][actual.col] == _EXIT {
 			pasos, distancia := reconstruirPasos(anteriores, inicial, actual)
 			return pasos, distancia, nil
 		}
