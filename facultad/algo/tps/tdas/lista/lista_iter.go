@@ -10,43 +10,70 @@ type IteradorLista[T any] interface {
 	Borrar() T
 }
 
-type listaIter[T any] struct {
-	actual   *listaNodo[T]
-	anterior *listaNodo[T]
-	lista    Lista[T]
+type iterListaEnlazada[T any] struct {
+	actual   *nodoLista[T]
+	anterior *nodoLista[T]
+	lista    *listaEnlazada[T]
 }
 
-func (l *listaIter[T]) HayAlgoMas() bool {
+func (l *iterListaEnlazada[T]) HayAlgoMas() bool {
 	return l.actual != nil
 }
 
-func (l *listaIter[T]) VerActual() T {
-	return l.actual.dato
-}
-
-func (l *listaIter[T]) Avanzar() {
+func (l *iterListaEnlazada[T]) VerActual() T {
 	if !l.HayAlgoMas() {
 		panic(_ERROR_LISTA_VACIA)
 	}
+	return l.actual.dato
+}
+
+func (l *iterListaEnlazada[T]) Avanzar() {
+	if !l.HayAlgoMas() {
+		panic(_ERROR_LISTA_VACIA)
+	}
+
 	l.anterior = l.actual
 	l.actual = l.actual.siguiente
 }
 
-// nodo nuevo -> anterior -> nodo nuevo -> actual
-func (l *listaIter[T]) Insertar(dato T) {
+func (l *iterListaEnlazada[T]) Insertar(dato T) {
 	nodoNuevo := nodoCrear(dato)
-	nodoNuevo.siguiente = l.actual
-	l.actual = nodoNuevo
-	if l.anterior != nil {
+
+	if l.anterior == nil {
+		l.lista.primero = nodoNuevo
+	} else {
 		l.anterior.siguiente = nodoNuevo
 	}
-	lista.Insertar()
+
+	nodoNuevo.siguiente = l.actual
+	l.actual = nodoNuevo
+
+	if nodoNuevo.siguiente == nil {
+		l.lista.ultimo = nodoNuevo
+	}
+
+	l.lista.largo++
 }
 
-// anterior -> actual -> siguiente | anterior -----------> siguiente
-func (l *listaIter[T]) Borrar() T {
-	actual := l.actual
-	l.anterior.siguiente = actual.siguiente
+func (l *iterListaEnlazada[T]) Borrar() T {
+	if !l.HayAlgoMas() {
+		panic(_ERROR_LISTA_VACIA)
+	}
 
-	return actual.dato
+	dato := l.actual.dato
+
+	if l.anterior == nil {
+		l.lista.primero = l.actual.siguiente
+	} else {
+		l.anterior.siguiente = l.actual.siguiente
+	}
+
+	if l.actual == l.lista.ultimo {
+		l.lista.ultimo = l.anterior
+	}
+
+	l.actual = l.actual.siguiente
+	l.lista.largo--
+
+	return dato
 }

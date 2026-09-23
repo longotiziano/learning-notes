@@ -1,12 +1,30 @@
 package lista
 
-type listaNodo[T any] struct {
+type nodoLista[T any] struct {
 	dato      T
-	siguiente *listaNodo[T]
+	siguiente *nodoLista[T]
 }
 
-func nodoCrear[T any](dato T) *listaNodo[T] {
-	return &listaNodo[T]{
+type listaEnlazada[T any] struct {
+	largo   int
+	primero *nodoLista[T]
+	ultimo  *nodoLista[T]
+}
+
+func nodoCrear[T any](dato T) *nodoLista[T] {
+	return &nodoLista[T]{
 		dato, nil,
 	}
+}
+
+func CrearListaEnlazada[T any]() Lista[T] {
+	return listaEnlazada[T]{0, nil, nil}
+}
+
+func (l *listaEnlazada[T]) Iterador() IteradorLista[T] {
+	return &iterListaEnlazada[T]{actual: l.primero, anterior: nil, lista: l}
+}
+
+func (l *listaEnlazada[T]) EstaVacia() bool {
+	return l.largo == 0
 }
