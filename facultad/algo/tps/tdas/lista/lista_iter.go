@@ -1,7 +1,5 @@
 package lista
 
-const _ERROR_LISTA_VACIA = "La lista esta vacia"
-
 type IteradorLista[T any] interface {
 	VerActual() T
 	HayAlgoMas() bool
@@ -22,14 +20,14 @@ func (l *iterListaEnlazada[T]) HayAlgoMas() bool {
 
 func (l *iterListaEnlazada[T]) VerActual() T {
 	if !l.HayAlgoMas() {
-		panic(_ERROR_LISTA_VACIA)
+		panic(ErrorListaVacia)
 	}
 	return l.actual.dato
 }
 
 func (l *iterListaEnlazada[T]) Avanzar() {
 	if !l.HayAlgoMas() {
-		panic(_ERROR_LISTA_VACIA)
+		panic(ErrorListaVacia)
 	}
 
 	l.anterior = l.actual
@@ -37,7 +35,7 @@ func (l *iterListaEnlazada[T]) Avanzar() {
 }
 
 func (l *iterListaEnlazada[T]) Insertar(dato T) {
-	nodoNuevo := nodoCrear(dato)
+	nodoNuevo := crearNodo(dato)
 
 	if l.anterior == nil {
 		l.lista.primero = nodoNuevo
@@ -57,7 +55,7 @@ func (l *iterListaEnlazada[T]) Insertar(dato T) {
 
 func (l *iterListaEnlazada[T]) Borrar() T {
 	if !l.HayAlgoMas() {
-		panic(_ERROR_LISTA_VACIA)
+		panic(ErrorListaVacia)
 	}
 
 	dato := l.actual.dato
