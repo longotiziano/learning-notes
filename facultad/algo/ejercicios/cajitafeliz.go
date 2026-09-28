@@ -52,13 +52,16 @@ func countingSort[T any](elementos []T, rango int, seleccDigito func(T) int) {
 	sumasAcumuladas := make([]int, rango)
 	resultado := make([]T, len(elementos))
 
-	// creo el arreglo de frecuencias
+	// creo el arreglo de frecuencias de tamaño k
 	for _, elem := range elementos {
 		valor := seleccDigito(elem)
 		frecuencias[valor]++
 	}
 
+	// creo el arreglo de posiciones de cada elemento
+	// por ejemplo, para el elemento 0
 	for i := 1; i < len(frecuencias); i++ {
+		// 0 + 2 = 2 (para el primer elemento con frecuencia 2)
 		sumasAcumuladas[i] = sumasAcumuladas[i-1] + frecuencias[i-1]
 	}
 

@@ -1,5 +1,9 @@
 package cola
 
+import (
+	"reflect"
+)
+
 const _MENSAJE_ERROR_COLA_VACIA = "La cola esta vacia"
 
 type nodoCola[T any] struct {
@@ -66,4 +70,32 @@ func (c *colaEnlazada[T]) Desencolar() T {
 	}
 
 	return primerNodo.dato
+}
+
+/*
+Ejer 2 de parcial
+
+Implementar la primitiva Colarse para el TDA ColaEnlazada que, dado un dato, lo mueva al desde su lugar (asumir
+que hay solo una aparición de cada dato) hasta el inicio de la Cola, para que pueda ser usada por Hollander para mover
+clientes.
+Indicar y justificar la complejidad de la primitiva.
+*/
+func (c *colaEnlazada[T]) Colarse(dato T) {
+	var anterior *nodoCola[T]
+	actual := c.primero // o(1)
+	for actual != nil { // o(n)
+		if reflect.DeepEqual(dato, actual.dato) { // o(1)
+			if actual != c.primero {
+				if actual == c.ultimo {
+					c.ultimo = anterior
+				}
+				anterior.prox = actual.prox // o(1)
+				actual.prox = c.primero
+				c.primero = actual
+			}
+			return
+		}
+		anterior = actual
+		actual = actual.prox // o(1)
+	}
 }

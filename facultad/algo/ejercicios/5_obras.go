@@ -19,19 +19,20 @@ luego de finalizado el algoritmo? Justificar brevemente.
 
 /*
 Si se quiere ordenar por año mediante counting sort, entonces tenemos que tener en cuenta el largo
-del arreglo N e identificar el rango de claves K, que en este caso se trata de un rango de 18 claves (1987 a 2005).
+del arreglo N e identificar el rango de claves K, que en este caso se trata de un rango de 9 claves (1987 a 2005).
 
 Como la complejidad de counting sort es de T(N) = O(N + K), con N = 8 y K = 19
 
 En este algoritmo, lo primero que tenemos que hacer es el arreglo de frecuencias, que tendrá un largo K,
 y contará para cada K cuantos elementos hay (de manera lineal).
 
-Luego, en otro arreglo, se introducirá cada elemento haciendo "saltos" por cada K, y el tamaño de los saltos
-dependerá de la frecuencia de cada K. Por ejemplo, si tenemos que 1995 aparece 3 veces en las frecuencias,
-entonces antes de pasar a la próxima clave, en este nuevo arreglo se dejarán 3 posiciones vacías. Este
-proceso tiene complejidad O(K).
+Luego, en otro arreglo, se introducirán las posiciones respectivas de cada elemento, dejando "saltos" con
+tamaño dependiente de la cantidad de cada clave. Este proceso, al recorrer el arreglo de frecuencias, es O(K).
 
-Esto permite realizar
+Posteriormente se insertan los elementos en sus respectivas posiciones, actualizando cada una de ellas por
+elemento insertado. Esto es O(N).
+
+Finalmente se copia el arreglo resultante al introducido (O(N)).
 */
 
 type Obra struct {
@@ -39,13 +40,33 @@ type Obra struct {
 	titulo string
 }
 
-func OrdenarObras(obras []Obra) []Obra {
+func OrdenarObras(obras []Obra) {
 	rango := 2005 - 1987 + 1
-	return countingSortDos(obras, rango, func(o Obra) int {
+	countingSortDos(obras, rango, func(o Obra) int {
 		return o.anio - 1987
 	})
 }
 
-func countingSortDos[T any](arr []T, rango int, selecDigito func(T) int) []T {
-	return nil
+func countingSortDos[T any](arr []T, rango int, selecDigito func(T) int) {
+	lenArr := len(arr)
+	frecuencia := make([]int, rango)
+	sumasAcumuladas := make([]int, rango)
+	resultado := make([]T, lenArr)
+
+	for _, elem := range arr {
+		d := selecDigito(elem)
+		frecuencia[d]++
+	}
+	for i := 1; i < rango; i++ {
+		sumasAcumuladas[i] = sumasAcumuladas[i-1] + frecuencia[i-1]
+	}
+	for _, elem := range arr {
+		d := selecDigito(elem)
+		pos := sumasAcumuladas[d]
+		resultado[pos] = elem
+		sumasAcumuladas[d]++
+	}
+	for i := range arr {
+		arr[i] = resultado[i]
+	}
 }

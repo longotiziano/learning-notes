@@ -54,3 +54,27 @@ func TestOrdenarAniosYEventos(t *testing.T) {
 	require.Equal(t, Evento{2000, "Arbol"}, resultado[1])
 	require.Equal(t, Evento{2000, "Zorro"}, resultado[2])
 }
+
+func TestOrdenarObras(t *testing.T) {
+	obras := []Obra{
+		{anio: 1988, titulo: "Crónicas del Ángel Gris"},
+		{anio: 2000, titulo: "Los Días del Venado"},
+		{anio: 1995, titulo: "Alta Fidelidad"},
+		{anio: 1987, titulo: "Tokio Blues"},
+		{anio: 2005, titulo: "En Picada"},
+		{anio: 1995, titulo: "Crónica del Pájaro que Da Cuerda al Mundo"},
+		{anio: 1995, titulo: "Ensayo Sobre la Ceguera"},
+		{anio: 2005, titulo: "Los Hombres que No Amaban a las Mujeres"},
+	}
+	OrdenarObras(obras)
+	resultado := obras
+
+	require.Equal(t, Obra{1987, "Tokio Blues"}, resultado[0])
+	require.Equal(t, Obra{1988, "Crónicas del Ángel Gris"}, resultado[1])
+	require.Equal(t, Obra{1995, "Alta Fidelidad"}, resultado[2])
+	require.Equal(t, Obra{1995, "Crónica del Pájaro que Da Cuerda al Mundo"}, resultado[3])
+	require.Equal(t, Obra{1995, "Ensayo Sobre la Ceguera"}, resultado[4])
+	require.Equal(t, Obra{2000, "Los Días del Venado"}, resultado[5])
+	require.Equal(t, Obra{2005, "En Picada"}, resultado[6])
+	require.Equal(t, Obra{2005, "Los Hombres que No Amaban a las Mujeres"}, resultado[7])
+}
