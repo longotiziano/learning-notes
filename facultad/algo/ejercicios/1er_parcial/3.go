@@ -38,3 +38,19 @@ func (l *ListaEnlazada[T]) TieneCiclosCortos() bool {
 	}
 	return res
 }
+
+func (l *ListaEnlazada[T]) TieneCiclos() bool {
+	punteroA := l.primero
+	punteroB := l.primero
+
+	for punteroB != nil && punteroB.siguiente != nil {
+		punteroA = punteroA.siguiente
+		punteroB = punteroB.siguiente.siguiente
+
+		if punteroA == punteroB {
+			return true
+		}
+	}
+
+	return false
+}
