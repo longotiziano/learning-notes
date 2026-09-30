@@ -96,3 +96,16 @@ func (lista *listaEnlazada[T]) Iterar(visitar func(T) bool) {
 func (l *listaEnlazada[T]) Iterador() IteradorLista[T] {
 	return &iterListaEnlazada[T]{actual: l.primero, anterior: nil, lista: l}
 }
+
+func (l *listaEnlazada[T]) Invertir() {
+	actual := l.primero
+	l.primero = l.ultimo
+	l.ultimo = actual
+	var anterior *nodoLista[T] = nil
+	for actual != nil {
+		proximo := actual.siguiente
+		actual.siguiente = anterior
+		anterior = actual
+		actual = proximo
+	}
+}

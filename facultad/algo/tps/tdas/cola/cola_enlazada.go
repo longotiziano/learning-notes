@@ -99,3 +99,32 @@ func (c *colaEnlazada[T]) Colarse(dato T) {
 		actual = actual.prox // o(1)
 	}
 }
+
+/*
+Ejer 4 recu
+
+Nuevamente, en el supermercado Lo de Diego, el gerente Hollander necesita ayuda para supervisar las filas de las cajas. Así como
+en el anterior examen necesitaba una primitiva para mover clientes al inicio de la fila, ahora necesita penalizar clientes molestos y
+moverlos al final de la misma. Implementar la primitiva Penalizar para el TDA ColaEnlazada que, dado un dato, lo mueva desde
+su lugar (asumiendo que a lo sumo aparecerá una vez) hasta el final de la Cola, para que pueda ser usada por Hollander para mover
+clientes. Indicar y justificar la complejidad de la primitiva.
+*/
+func (c *colaEnlazada[T]) Penalizar(dato T) {
+	var anterior *nodoCola[T]
+	actual := c.primero
+	for actual != nil {
+		if reflect.DeepEqual(actual.dato, dato) {
+			if c.ultimo != actual {
+				if c.primero == actual {
+					c.Desencolar()
+				} else {
+					anterior.prox = actual.prox
+				}
+				c.Encolar(dato)
+			}
+			return
+		}
+		anterior = actual
+		actual = actual.prox
+	}
+}
