@@ -86,9 +86,7 @@ func (lista *listaEnlazada[T]) Largo() int {
 }
 
 func (lista *listaEnlazada[T]) Iterar(visitar func(T) bool) {
-	datoActual := lista.primero
-
-	for datoActual != nil && visitar(datoActual.dato) {
+	for datoActual := lista.primero; datoActual != nil && visitar(datoActual.dato); datoActual = datoActual.siguiente {
 		datoActual = datoActual.siguiente
 	}
 }

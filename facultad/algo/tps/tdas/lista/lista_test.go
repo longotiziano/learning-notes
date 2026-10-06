@@ -7,32 +7,32 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-const ErrorListaVacia = "La lista esta vacia"
+const _ERROR_LISTA_VACIA = "La lista esta vacia"
 const _VOLUMEN = 150000
 
 func validarListaVacia[T any](t *testing.T, lista TDALista.Lista[T]) {
 	require.True(t, lista.EstaVacia())
 	require.Equal(t, 0, lista.Largo())
-	require.PanicsWithValue(t, ErrorListaVacia, func() {
+	require.PanicsWithValue(t, _ERROR_LISTA_VACIA, func() {
 		lista.VerPrimero()
 	})
-	require.PanicsWithValue(t, ErrorListaVacia, func() {
+	require.PanicsWithValue(t, _ERROR_LISTA_VACIA, func() {
 		lista.VerUltimo()
 	})
-	require.PanicsWithValue(t, ErrorListaVacia, func() {
+	require.PanicsWithValue(t, _ERROR_LISTA_VACIA, func() {
 		lista.BorrarPrimero()
 	})
 }
 
 func validarIterVacio[T any](t *testing.T, iter TDALista.IteradorLista[T]) {
 	require.False(t, iter.HayAlgoMas())
-	require.PanicsWithValue(t, ErrorListaVacia, func() {
+	require.PanicsWithValue(t, _ERROR_LISTA_VACIA, func() {
 		iter.VerActual()
 	})
-	require.PanicsWithValue(t, ErrorListaVacia, func() {
+	require.PanicsWithValue(t, _ERROR_LISTA_VACIA, func() {
 		iter.Borrar()
 	})
-	require.PanicsWithValue(t, ErrorListaVacia, func() {
+	require.PanicsWithValue(t, _ERROR_LISTA_VACIA, func() {
 		iter.Avanzar()
 	})
 }
@@ -253,7 +253,7 @@ func TestIterExtVerActual(t *testing.T) {
 	iter.Avanzar()
 	require.Equal(t, 2, iter.VerActual())
 	iter.Avanzar()
-	require.PanicsWithValue(t, ErrorListaVacia, func() {
+	require.PanicsWithValue(t, _ERROR_LISTA_VACIA, func() {
 		iter.VerActual()
 	})
 }
@@ -267,7 +267,7 @@ func TestIterExtAvanzar(t *testing.T) {
 	require.Equal(t, 1, iter.VerActual())
 	iter.Avanzar()
 	require.False(t, iter.HayAlgoMas())
-	require.PanicsWithValue(t, ErrorListaVacia, func() {
+	require.PanicsWithValue(t, _ERROR_LISTA_VACIA, func() {
 		iter.Avanzar()
 	})
 }
