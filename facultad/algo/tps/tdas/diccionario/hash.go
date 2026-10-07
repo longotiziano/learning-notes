@@ -40,6 +40,10 @@ func auxObtenerIndice[K comparable](clave K, tam int) int {
 	return int(hash(clave) % uint64(tam))
 }
 
+func crearTabla[K comparable, V any](tam int) []TDALista.Lista[campo[K, V]] {
+	return make([]TDALista.Lista[campo[K, V]], tam)
+}
+
 func (h *hashAbierto[K, V]) obtenerIndice(clave K) int {
 	return auxObtenerIndice(clave, h.tam)
 }
@@ -60,7 +64,7 @@ func (h *hashAbierto[K, V]) obtenerClaveLista(clave K) TDALista.Lista[campo[K, V
 
 func CrearHash[K comparable, V any]() Diccionario[K, V] {
 	return &hashAbierto[K, V]{
-		make([]TDALista.Lista[campo[K, V]], _TAMANIO_INICIAL_TABLA_HASH),
+		crearTabla[K, V](_TAMANIO_INICIAL_TABLA_HASH),
 		_TAMANIO_INICIAL_TABLA_HASH,
 		0,
 	}
@@ -88,7 +92,7 @@ func convertirPrimo(n int) int {
 
 func (h *hashAbierto[K, V]) redimensionar(nuevaCapacidad int) {
 	nuevaCapacidad = convertirPrimo(nuevaCapacidad)
-	nuevosDatos := make([]TDALista.Lista[campo[K, V]], nuevaCapacidad)
+	nuevosDatos := crearTabla[K, V](nuevaCapacidad)
 
 	h.Iterar(func(clave K, dato V) bool {
 		indice := auxObtenerIndice(clave, nuevaCapacidad)
