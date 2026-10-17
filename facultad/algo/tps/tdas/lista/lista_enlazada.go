@@ -1,8 +1,6 @@
 package lista
 
-const (
-	ErrorListaVacia = "La lista esta vacia"
-)
+const _ERROR_LISTA_VACIA = "La lista esta vacia"
 
 type nodoLista[T any] struct {
 	dato      T
@@ -53,7 +51,7 @@ func (lista *listaEnlazada[T]) InsertarUltimo(dato T) {
 
 func (lista *listaEnlazada[T]) BorrarPrimero() T {
 	if lista.EstaVacia() {
-		panic(ErrorListaVacia)
+		panic(_ERROR_LISTA_VACIA)
 	}
 
 	dato := lista.primero.dato
@@ -69,14 +67,14 @@ func (lista *listaEnlazada[T]) BorrarPrimero() T {
 
 func (lista *listaEnlazada[T]) VerPrimero() T {
 	if lista.EstaVacia() {
-		panic(ErrorListaVacia)
+		panic(_ERROR_LISTA_VACIA)
 	}
 	return lista.primero.dato
 }
 
 func (lista *listaEnlazada[T]) VerUltimo() T {
 	if lista.EstaVacia() {
-		panic(ErrorListaVacia)
+		panic(_ERROR_LISTA_VACIA)
 	}
 	return lista.ultimo.dato
 }
@@ -106,4 +104,73 @@ func (l *listaEnlazada[T]) Invertir() {
 		anterior = actual
 		actual = proximo
 	}
+}
+
+// ITERADOR
+type iterListaEnlazada[T any] struct {
+	actual   *nodoLista[T]
+	anterior *nodoLista[T]
+	lista    *listaEnlazada[T]
+}
+
+func (l *iterListaEnlazada[T]) HayAlgoMas() bool {
+	return l.actual != nil
+}
+
+func (l *iterListaEnlazada[T]) VerActual() T {
+	if !l.HayAlgoMas() {
+		panic(_ERROR_LISTA_VACIA)
+	}
+	return l.actual.dato
+}
+
+func (l *iterListaEnlazada[T]) Avanzar() {
+	if !l.HayAlgoMas() {
+		panic(_ERROR_LISTA_VACIA)
+	}
+
+	l.anterior = l.actual
+	l.actual = l.actual.siguiente
+}
+
+func (l *iterListaEnlazada[T]) Insertar(dato T) {
+	nodoNuevo := crearNodo(dato)
+
+	if l.anterior == nil {
+		l.lista.primero = nodoNuevo
+	} else {
+		l.anterior.siguiente = nodoNuevo
+	}
+
+	nodoNuevo.siguiente = l.actual
+	l.actual = nodoNuevo
+
+	if nodoNuevo.siguiente == nil {
+		l.lista.ultimo = nodoNuevo
+	}
+
+	l.lista.largo++
+}
+
+func (l *iterListaEnlazada[T]) Borrar() T {
+	if !l.HayAlgoMas() {
+		panic(_ERROR_LISTA_VACIA)
+	}
+
+	dato := l.actual.dato
+
+	if l.anterior == nil {
+		l.lista.primero = l.actual.siguiente
+	} else {
+		l.anterior.siguiente = l.actual.siguiente
+	}
+
+	if l.actual == l.lista.ultimo {
+		l.lista.ultimo = l.anterior
+	}
+
+	l.actual = l.actual.siguiente
+	l.lista.largo--
+
+	return dato
 }
