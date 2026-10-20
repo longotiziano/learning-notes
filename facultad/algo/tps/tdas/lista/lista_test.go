@@ -8,6 +8,7 @@ import (
 )
 
 const _ERROR_LISTA_VACIA = "La lista esta vacia"
+const _ERROR_ITERADOR_TERMINO = "El iterador termino de iterar"
 const _VOLUMEN = 150000
 
 func validarListaVacia[T any](t *testing.T, lista TDALista.Lista[T]) {
@@ -26,13 +27,13 @@ func validarListaVacia[T any](t *testing.T, lista TDALista.Lista[T]) {
 
 func validarIterVacio[T any](t *testing.T, iter TDALista.IteradorLista[T]) {
 	require.False(t, iter.HayAlgoMas())
-	require.PanicsWithValue(t, _ERROR_LISTA_VACIA, func() {
+	require.PanicsWithValue(t, _ERROR_ITERADOR_TERMINO, func() {
 		iter.VerActual()
 	})
-	require.PanicsWithValue(t, _ERROR_LISTA_VACIA, func() {
+	require.PanicsWithValue(t, _ERROR_ITERADOR_TERMINO, func() {
 		iter.Borrar()
 	})
-	require.PanicsWithValue(t, _ERROR_LISTA_VACIA, func() {
+	require.PanicsWithValue(t, _ERROR_ITERADOR_TERMINO, func() {
 		iter.Avanzar()
 	})
 }
@@ -253,7 +254,7 @@ func TestIterExtVerActual(t *testing.T) {
 	iter.Avanzar()
 	require.Equal(t, 2, iter.VerActual())
 	iter.Avanzar()
-	require.PanicsWithValue(t, _ERROR_LISTA_VACIA, func() {
+	require.PanicsWithValue(t, _ERROR_ITERADOR_TERMINO, func() {
 		iter.VerActual()
 	})
 }
@@ -267,7 +268,7 @@ func TestIterExtAvanzar(t *testing.T) {
 	require.Equal(t, 1, iter.VerActual())
 	iter.Avanzar()
 	require.False(t, iter.HayAlgoMas())
-	require.PanicsWithValue(t, _ERROR_LISTA_VACIA, func() {
+	require.PanicsWithValue(t, _ERROR_ITERADOR_TERMINO, func() {
 		iter.Avanzar()
 	})
 }

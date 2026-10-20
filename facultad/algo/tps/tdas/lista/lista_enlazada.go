@@ -1,6 +1,7 @@
 package lista
 
 const _ERROR_LISTA_VACIA = "La lista esta vacia"
+const _ERROR_ITERADOR_TERMINO = "El iterador termino de iterar"
 
 type nodoLista[T any] struct {
 	dato      T
@@ -26,11 +27,13 @@ func (lista *listaEnlazada[T]) EstaVacia() bool {
 }
 
 func (lista *listaEnlazada[T]) InsertarPrimero(dato T) {
+	estabaVacia := lista.EstaVacia()
+
 	nuevoNodo := crearNodo(dato)
 	nuevoNodo.siguiente = lista.primero
 	lista.primero = nuevoNodo
 
-	if lista.ultimo == nil {
+	if estabaVacia {
 		lista.ultimo = nuevoNodo
 	}
 
@@ -85,25 +88,11 @@ func (lista *listaEnlazada[T]) Largo() int {
 
 func (lista *listaEnlazada[T]) Iterar(visitar func(T) bool) {
 	for datoActual := lista.primero; datoActual != nil && visitar(datoActual.dato); datoActual = datoActual.siguiente {
-		datoActual = datoActual.siguiente
 	}
 }
 
 func (l *listaEnlazada[T]) Iterador() IteradorLista[T] {
 	return &iterListaEnlazada[T]{actual: l.primero, anterior: nil, lista: l}
-}
-
-func (l *listaEnlazada[T]) Invertir() {
-	actual := l.primero
-	l.primero = l.ultimo
-	l.ultimo = actual
-	var anterior *nodoLista[T] = nil
-	for actual != nil {
-		proximo := actual.siguiente
-		actual.siguiente = anterior
-		anterior = actual
-		actual = proximo
-	}
 }
 
 // ITERADOR
@@ -119,14 +108,14 @@ func (l *iterListaEnlazada[T]) HayAlgoMas() bool {
 
 func (l *iterListaEnlazada[T]) VerActual() T {
 	if !l.HayAlgoMas() {
-		panic(_ERROR_LISTA_VACIA)
+		panic(_ERROR_ITERADOR_TERMINO)
 	}
 	return l.actual.dato
 }
 
 func (l *iterListaEnlazada[T]) Avanzar() {
 	if !l.HayAlgoMas() {
-		panic(_ERROR_LISTA_VACIA)
+		panic(_ERROR_ITERADOR_TERMINO)
 	}
 
 	l.anterior = l.actual
@@ -154,7 +143,7 @@ func (l *iterListaEnlazada[T]) Insertar(dato T) {
 
 func (l *iterListaEnlazada[T]) Borrar() T {
 	if !l.HayAlgoMas() {
-		panic(_ERROR_LISTA_VACIA)
+		panic(_ERROR_ITERADOR_TERMINO)
 	}
 
 	dato := l.actual.dato
