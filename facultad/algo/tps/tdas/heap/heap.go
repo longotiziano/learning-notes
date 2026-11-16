@@ -90,3 +90,37 @@ func HeapSort[T any](elementos []T, funcion_cmp cmpHeap[T]) {
 		downheap(elementos, 0, tamanio, funcion_cmp)
 	}
 }
+
+func cmpMin(a, b int) int {
+	if a > b {
+		return -1
+	} else if a < b {
+		return 1
+	}
+	return 0
+}
+
+func ordenarLogK(arr []int, k int) {
+	n := len(arr)
+	if n <= 1 {
+		return
+	}
+
+	limite := min(k+1, n)
+	inicial := make([]int, limite)
+	copy(inicial, arr[:limite])
+
+	heap := CrearHeapArr(inicial, cmpMin) // O(k)
+
+	pos := 0
+	for i := limite; i < n; i++ { // O(n - k) vueltas
+		arr[pos] = heap.Desencolar() // O(log k)
+		heap.Encolar(arr[i])         // O(log k)
+		pos++
+	}
+
+	for !heap.EstaVacia() { // O(k) vueltas
+		arr[pos] = heap.Desencolar() // O(log k)
+		pos++
+	}
+}
