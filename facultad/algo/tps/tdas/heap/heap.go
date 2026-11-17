@@ -124,3 +124,49 @@ func ordenarLogK(arr []int, k int) {
 		pos++
 	}
 }
+
+type cancion struct {
+	titulo   string
+	artista  string
+	anio     int
+	duracion int
+}
+type itemCancion struct {
+	c          cancion
+	grupoIdx   int
+	cancionIdx int
+}
+
+func cmpItem(a, b itemCancion) int {
+	return b.c.anio - a.c.anio // Min-Heap por año
+}
+
+func ordenarKCanciones(canciones [][]cancion, k, n int) []cancion {
+	if k == 0 || n == 0 {
+		return []cancion{}
+	}
+
+	iniciales := make([]itemCancion, k)
+	for i := 0; i < k; i++ {
+		iniciales[i] = itemCancion{c: canciones[i][0], grupoIdx: i, cancionIdx: 0}
+	}
+
+	heap := CrearHeapArr(iniciales, cmpItem) // O(k)
+	arrOrdenado := make([]cancion, 0, k*n)
+
+	for !heap.EstaVacia() { // O(k * n * log k)
+		minimo := heap.Desencolar()
+		arrOrdenado = append(arrOrdenado, minimo.c)
+
+		sigIdx := minimo.cancionIdx + 1
+		if sigIdx < n {
+			heap.Encolar(itemCancion{
+				c:          canciones[minimo.grupoIdx][sigIdx],
+				grupoIdx:   minimo.grupoIdx,
+				cancionIdx: sigIdx,
+			})
+		}
+	}
+
+	return arrOrdenado
+}
