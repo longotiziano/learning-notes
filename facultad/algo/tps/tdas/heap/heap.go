@@ -19,8 +19,18 @@ func CrearHeap[T any](funcion_cmp func(T, T) int) ColaPrioridad[T] {
 // Ingresado un arreglo y una función comparativa, devuelve una ColaPrioridad con los datos ordenados
 func CrearHeapArr[T any](arreglo []T, funcion_cmp func(T, T) int) ColaPrioridad[T] {
 	tamanio := len(arreglo)
-	heapify(arreglo, tamanio, funcion_cmp)
-	return &heap[T]{arreglo, tamanio, funcion_cmp}
+	capacidad := tamanio
+	if capacidad < _TAMANIO_INICIAL {
+		capacidad = _TAMANIO_INICIAL
+	}
+
+	datos := make([]T, capacidad)
+	for i := 0; i < tamanio; i++ {
+		datos[i] = arreglo[i]
+	}
+
+	heapify(datos, tamanio, funcion_cmp)
+	return &heap[T]{datos, tamanio, funcion_cmp}
 }
 
 func swap[T any](arr []T, i, j int) {
@@ -29,6 +39,18 @@ func swap[T any](arr []T, i, j int) {
 
 func calcularHijos(pos int) (int, int) {
 	return 2*pos + 1, 2*pos + 2
+}
+
+func calcularPadre(pos int) int {
+	return (pos - 1) / 2
+}
+
+func upheap[T any](datos []T, pos int, cmp cmpHeap[T]) {
+	for pos > 0 && cmp(datos[pos], datos[calcularPadre(pos)]) > 0 {
+		padre := calcularPadre(pos)
+		swap(datos, pos, padre)
+		pos = padre
+	}
 }
 
 func downheap[T any](datos []T, pos int, cantidad int, cmp cmpHeap[T]) {
@@ -55,12 +77,25 @@ func heapify[T any](datos []T, cantidad int, cmp cmpHeap[T]) {
 	}
 }
 
+func (h *heap[T]) redimensionar(nuevoTam int) {
+	nuevosDatos := make([]T, nuevoTam)
+	for i := 0; i < h.cantidad; i++ {
+		nuevosDatos[i] = h.datos[i]
+	}
+	h.datos = nuevosDatos
+}
+
 func (h *heap[T]) EstaVacia() bool {
 	return h.cantidad == 0
 }
 
 func (h *heap[T]) Encolar(dato T) {
-
+	if h.cantidad == len(h.datos) {
+		h.redimensionar(len(h.datos) * 2)
+	}
+	h.datos[h.cantidad] = dato
+	upheap(h.datos, h.cantidad, h.cmp)
+	h.cantidad++
 }
 
 func (h *heap[T]) VerMax() T {
@@ -74,7 +109,16 @@ func (h *heap[T]) Desencolar() T {
 	if h.EstaVacia() {
 		panic(_ERROR_COLA_VACIA)
 	}
-	return h.datos[0]
+	max := h.datos[0]
+	h.datos[0] = h.datos[h.cantidad-1]
+	h.cantidad--
+	if !h.EstaVacia() {
+		downheap(h.datos, 0, h.cantidad, h.cmp)
+	}
+	if h.cantidad > 0 && h.cantidad <= len(h.datos)/4 && len(h.datos)/2 >= _TAMANIO_INICIAL {
+		h.redimensionar(len(h.datos) / 2)
+	}
+	return max
 }
 
 func (h *heap[T]) Cantidad() int {
@@ -169,4 +213,19 @@ func ordenarKCanciones(canciones [][]cancion, k, n int) []cancion {
 	}
 
 	return arrOrdenado
+}
+
+func (h *heap[T]) Filter(f func(T) bool) {
+	arr := make([]T, h.cantidad)
+	pos := 0
+	for i := 0; i < h.cantidad; i++ {
+		dato := h.datos[i]
+		if f(dato) {
+			arr[pos] = dato
+			pos++
+		}
+	}
+	h.datos = arr[:pos+1]
+	h.cantidad = pos + 1
+	heapify(h.datos, pos+1, h.cmp)
 }
