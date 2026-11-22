@@ -3,6 +3,7 @@ package diccionario
 import TDAPila "tdas/pila"
 
 const _ERROR_CLAVE_INEXISTENTE = "La clave no pertenece al diccionario"
+const _ERROR_ITERADOR_TERMINO = "El iterador termino de iterar"
 
 // si 1era clave < 2da, devuelve < 0
 type funcCmp[K comparable] func(K, K) int
@@ -35,7 +36,7 @@ func crearNodoABB[K comparable, V any](clave K, dato V) *nodoAbb[K, V] {
 	return &nodoAbb[K, V]{nil, nil, clave, dato}
 }
 
-// devuelve un puntero al puntero del nodo que contiene la clave, 
+// devuelve un puntero al puntero del nodo que contiene la clave,
 // o un puntero al puntero donde debería estar el nodo con la clave
 func (abb *abb[K, V]) obtenerEnlace(nodo **nodoAbb[K, V], clave K) **nodoAbb[K, V] {
 	if *nodo == nil || abb.cmp(clave, (*nodo).clave) == 0 {
@@ -119,25 +120,10 @@ func (abb *abb[K, V]) Cantidad() int {
 }
 
 func (abb *abb[K, V]) Iterar(visitar func(K, V) bool) {
-	abb.raiz.iterar(visitar)
-}
-
-// itero in-order
-func (nodo *nodoAbb[K, V]) iterar(visitar func(K, V) bool) bool {
-	if nodo == nil {
-		return true
-	}
-	if !nodo.izquierdo.iterar(visitar) {
-		return false
-	}
-	if !visitar(nodo.clave, nodo.dato) {
-		return false
-	}
-	return nodo.derecho.iterar(visitar)
+	abb.raiz.iterarRango(nil, nil, visitar, abb.cmp)
 }
 
 // iterador interno
-
 func (abb *abb[K, V]) IterarRango(desde *K, hasta *K, visitar func(K, V) bool) {
 	abb.raiz.iterarRango(desde, hasta, visitar, abb.cmp)
 }
@@ -211,7 +197,7 @@ func (iter *iteradorAbb[K, V]) HayAlgoMas() bool {
 
 func (iter *iteradorAbb[K, V]) VerActual() (K, V) {
 	if !iter.HayAlgoMas() {
-		panic("El iterador termino de iterar")
+		panic(_ERROR_ITERADOR_TERMINO)
 	}
 	nodo := iter.pila.VerTope()
 	return nodo.clave, nodo.dato
@@ -219,7 +205,7 @@ func (iter *iteradorAbb[K, V]) VerActual() (K, V) {
 
 func (iter *iteradorAbb[K, V]) Avanzar() {
 	if !iter.HayAlgoMas() {
-		panic("El iterador termino de iterar")
+		panic(_ERROR_ITERADOR_TERMINO)
 	}
 	desapilado := iter.pila.Desapilar()
 	iter.apilarIzquierdos(desapilado.derecho)

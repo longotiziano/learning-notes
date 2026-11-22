@@ -8,10 +8,118 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// revisar
+const _ERROR_CLAVE_INEXISTENTE = "La clave no pertenece al diccionario"
+const _ERROR_ITERADOR_TERMINO = "El iterador termino de iterar"
+const _VOLUMEN = 20000
 
+// HELPERS
+func validarDiccionarioVacio[K comparable, V any](t *testing.T, diccionario TDADiccionario.DiccionarioOrdenado[K, V]) {
+	var clave K
+	require.EqualValues(t, 0, diccionario.Cantidad())
+	require.False(t, diccionario.Pertenece(clave))
+	require.PanicsWithValue(t, _ERROR_CLAVE_INEXISTENTE, func() { diccionario.Obtener(clave) })
+	require.PanicsWithValue(t, _ERROR_CLAVE_INEXISTENTE, func() { diccionario.Borrar(clave) })
+}
+
+func guardarElementoHelper(t *testing.T, diccionario TDADiccionario.DiccionarioOrdenado[int, int], clave int, valor int) {
+	cantidad := diccionario.Cantidad()
+	diccionario.Guardar(clave, valor)
+	require.EqualValues(t, valor, diccionario.Obtener(clave))
+	require.True(t, diccionario.Pertenece(clave))
+	require.EqualValues(t, cantidad+1, diccionario.Cantidad())
+}
+
+func borrarElementoHelper(t *testing.T, diccionario TDADiccionario.DiccionarioOrdenado[int, int], clave int) {
+	cantidad := diccionario.Cantidad()
+	diccionario.Borrar(clave)
+	require.False(t, diccionario.Pertenece(clave))
+	require.EqualValues(t, cantidad-1, diccionario.Cantidad())
+	require.PanicsWithValue(t, _ERROR_CLAVE_INEXISTENTE, func() { diccionario.Obtener(clave) })
+}
+
+func crearABBTestInt() TDADiccionario.DiccionarioOrdenado[int, int] {
+	return TDADiccionario.CrearABB[int, int](func(a, b int) int { return a - b })
+}
+
+func crearABBTestString() TDADiccionario.DiccionarioOrdenado[string, int] {
+	return TDADiccionario.CrearABB[string, int](strings.Compare)
+}
+
+// TESTS ABB
+func TestDiccionarioVacio(t *testing.T) {
+	abb := crearABBTestInt()
+	validarDiccionarioVacio(t, abb)
+}
+
+func TestGuardarABB(t *testing.T) {
+	abb := crearABBTestInt()
+	guardarElementoHelper(t, abb, 1, 2)
+	guardarElementoHelper(t, abb, 10, 20)
+}
+
+func TestPerteneceABB(t *testing.T) {
+	abb := crearABBTestInt()
+	guardarElementoHelper(t, abb, 1, 2)
+	guardarElementoHelper(t, abb, 10, 20)
+
+	require.True(t, abb.Pertenece(1))
+	require.True(t, abb.Pertenece(10))
+	require.False(t, abb.Pertenece(5))
+}
+
+func TestBorrarABB(t *testing.T) {
+	abb := crearABBTestInt()
+	require.PanicsWithValue(t, _ERROR_CLAVE_INEXISTENTE, func() { abb.Borrar(1) })
+	guardarElementoHelper(t, abb, 1, 2)
+	guardarElementoHelper(t, abb, 10, 20)
+
+	borrarElementoHelper(t, abb, 1)
+	borrarElementoHelper(t, abb, 10)
+}
+
+func TestObtenerABB(t *testing.T) {
+	abb := crearABBTestInt()
+	require.PanicsWithValue(t, _ERROR_CLAVE_INEXISTENTE, func() { abb.Obtener(1) })
+	guardarElementoHelper(t, abb, 1, 2)
+	guardarElementoHelper(t, abb, 10, 20)
+
+	require.EqualValues(t, 2, abb.Obtener(1))
+	require.EqualValues(t, 20, abb.Obtener(10))
+}
+
+func TestCantidadABB(t *testing.T) {
+	abb := crearABBTestInt()
+	require.EqualValues(t, 0, abb.Cantidad())
+	guardarElementoHelper(t, abb, 1, 2)
+	require.EqualValues(t, 1, abb.Cantidad())
+	guardarElementoHelper(t, abb, 10, 20)
+	require.EqualValues(t, 2, abb.Cantidad())
+	borrarElementoHelper(t, abb, 1)
+	require.EqualValues(t, 1, abb.Cantidad())
+	borrarElementoHelper(t, abb, 10)
+	require.EqualValues(t, 0, abb.Cantidad())
+}
+
+func TestVolumenABB(t *testing.T) {
+	abb := crearABBTestInt()
+	n := _VOLUMEN
+
+	for i := 0; i < n; i++ {
+		guardarElementoHelper(t, abb, i, i)
+	}
+
+	for i := 0; i < n; i++ {
+		require.EqualValues(t, i, abb.Obtener(i))
+	}
+
+	for i := 0; i < n; i++ {
+		borrarElementoHelper(t, abb, i)
+	}
+}
+
+// ITERADOR
 func TestIteradorInternoSinCondicionDeCorte(t *testing.T) {
-	abb := TDADiccionario.CrearABB[int, int](func(a, b int) int { return a - b })
+	abb := crearABBTestInt()
 
 	abb.Guardar(10, 100)
 	abb.Guardar(2, 20)
@@ -36,7 +144,7 @@ func TestIteradorInternoSinCondicionDeCorte(t *testing.T) {
 }
 
 func TestIteradorInternoConCondicionDeCorte(t *testing.T) {
-	abb := TDADiccionario.CrearABB[int, int](func(a, b int) int { return a - b })
+	abb := crearABBTestInt()
 
 	elementos := []int{1, 2, 18, 3, 6, 13, 22}
 	for _, elem := range elementos {
@@ -56,7 +164,7 @@ func TestIteradorInternoConCondicionDeCorte(t *testing.T) {
 }
 
 func TestIteradorInternoRangoNulo(t *testing.T) {
-	abb := TDADiccionario.CrearABB[string, int](strings.Compare)
+	abb := crearABBTestString()
 
 	claves := []string{"prueba 1", "prueba 2", "prueba 3", "prueba 4"}
 	for i, c := range claves {
@@ -72,7 +180,7 @@ func TestIteradorInternoRangoNulo(t *testing.T) {
 }
 
 func TestIteradorInternoDesde(t *testing.T) {
-	abb := TDADiccionario.CrearABB[string, int](strings.Compare)
+	abb := crearABBTestString()
 
 	claves := []string{"prueba 1", "prueba 2", "prueba 3", "prueba 4"}
 	for i, c := range claves {
@@ -89,7 +197,7 @@ func TestIteradorInternoDesde(t *testing.T) {
 }
 
 func TestIteradorInternoHasta(t *testing.T) {
-	abb := TDADiccionario.CrearABB[string, int](strings.Compare)
+	abb := crearABBTestString()
 
 	claves := []string{"prueba 1", "prueba 2", "prueba 3", "prueba 4"}
 	for i, c := range claves {
@@ -106,7 +214,7 @@ func TestIteradorInternoHasta(t *testing.T) {
 }
 
 func TestIteradorInternoDesdeYHasta(t *testing.T) {
-	abb := TDADiccionario.CrearABB[int, int](func(a, b int) int { return a - b })
+	abb := crearABBTestInt()
 
 	claves := []int{4, 6, 7, 9, 16, 23}
 	for i, c := range claves {
@@ -123,16 +231,16 @@ func TestIteradorInternoDesdeYHasta(t *testing.T) {
 }
 
 func TestIteradorExternoABBVacio(t *testing.T) {
-	abb := TDADiccionario.CrearABB[int, int](func(a, b int) int { return a - b })
+	abb := crearABBTestInt()
 	iter := abb.Iterador()
 
 	require.False(t, iter.HayAlgoMas())
-	require.PanicsWithValue(t, "El iterador termino de iterar", func() { iter.VerActual() })
-	require.PanicsWithValue(t, "El iterador termino de iterar", func() { iter.Avanzar() })
+	require.PanicsWithValue(t, _ERROR_ITERADOR_TERMINO, func() { iter.VerActual() })
+	require.PanicsWithValue(t, _ERROR_ITERADOR_TERMINO, func() { iter.Avanzar() })
 }
 
 func TestIteradorExternoRecorridoOrdenado(t *testing.T) {
-	abb := TDADiccionario.CrearABB[int, int](func(a, b int) int { return a - b })
+	abb := crearABBTestInt()
 	elementos := []int{2, 6, 8, 9, 10, 26, 97}
 	for _, elem := range elementos {
 		abb.Guardar(elem, elem*10)
@@ -150,12 +258,12 @@ func TestIteradorExternoRecorridoOrdenado(t *testing.T) {
 	}
 
 	require.False(t, iter.HayAlgoMas())
-	require.PanicsWithValue(t, "El iterador termino de iterar", func() { iter.VerActual() })
-	require.PanicsWithValue(t, "El iterador termino de iterar", func() { iter.Avanzar() })
+	require.PanicsWithValue(t, _ERROR_ITERADOR_TERMINO, func() { iter.VerActual() })
+	require.PanicsWithValue(t, _ERROR_ITERADOR_TERMINO, func() { iter.Avanzar() })
 }
 
 func TestIteradorExternoRangosClavesInexistentes(t *testing.T) {
-	abb := TDADiccionario.CrearABB[int, int](func(a, b int) int { return a - b })
+	abb := crearABBTestInt()
 
 	for _, elem := range []int{3, 5, 11, 15, 18, 24} {
 		abb.Guardar(elem, elem)
@@ -175,7 +283,7 @@ func TestIteradorExternoRangosClavesInexistentes(t *testing.T) {
 }
 
 func TestMultiplesIteradores(t *testing.T) {
-	abb := TDADiccionario.CrearABB[int, int](func(a, b int) int { return a - b })
+	abb := crearABBTestInt()
 	abb.Guardar(1, 1)
 	abb.Guardar(2, 2)
 	abb.Guardar(3, 3)
@@ -196,8 +304,8 @@ func TestMultiplesIteradores(t *testing.T) {
 }
 
 func TestIteradorVolumen(t *testing.T) {
-	abb := TDADiccionario.CrearABB[int, int](func(a, b int) int { return a - b })
-	n := 10000
+	abb := crearABBTestInt()
+	n := _VOLUMEN
 
 	for i := 0; i < n; i++ {
 		abb.Guardar(i, i)
