@@ -61,8 +61,11 @@ func TestCrearHeapVacio(t *testing.T) {
 
 func TestCrearHeapifyVacio(t *testing.T) {
 	var arr []int
+	arr2 := make([]int, 0)
 	cola := TDAColaPrioridad.CrearHeapArr(arr, compararNums)
 	validarColaVacia(t, cola)
+	cola2 := TDAColaPrioridad.CrearHeapArr(arr2, compararNums)
+	validarColaVacia(t, cola2)
 }
 
 func TestInsertarYVerMax(t *testing.T) {
