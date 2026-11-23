@@ -1,1 +1,5 @@
-package tp2
+package main
+
+func main() {
+	EscucharComandos()
+}

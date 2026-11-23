@@ -1,7 +1,7 @@
-package tp2
+package main
 
 /*
-En este módulo desarrollo el tipo de dato de IP.
+En este módulo desarrollo el tipo de dato de ip y demás funciones auxiliares
 */
 
 import (
@@ -10,6 +10,8 @@ import (
 	TDALis "tdas/lista"
 	"time"
 )
+
+const RANGO_IP = 256
 
 type ipRequest struct {
 	fecha  time.Time
@@ -37,8 +39,7 @@ func (ip *ip) VerIp() string {
 }
 
 /*
-compara ips numéricamente, devolviendo un número negativo si ip1 > ip2, 0 si son iguales y un número positivo si ip1 < ip2
-destinado a ser usado como función de comparación para un heap de mínimos.
+compara ips numéricamente, devolviendo un número positivo si ip1 > ip2, 0 si son iguales y un número negativo si ip1 < ip2
 */
 func cmpIps(ip1, ip2 *ip) int {
 	if ip1.parteA != ip2.parteA {
@@ -66,4 +67,34 @@ func CrearIp(ipStr string) *ip {
 		numsIp[i] = n
 	}
 	return &ip{numsIp[0], numsIp[1], numsIp[2], numsIp[3], requests}
+}
+
+// uso radix sort con counting sort como auxiliar, lo que me da una complejidad de O(4(v + k)) = O(v) con v la cantidad de ips y k = 256
+func OrdenarIps(ips []*ip) []*ip {
+	ipsOrdenadas := countingSortIps(ips, func(ip *ip) int { return ip.parteD })
+	ipsOrdenadas = countingSortIps(ipsOrdenadas, func(ip *ip) int { return ip.parteC })
+	ipsOrdenadas = countingSortIps(ipsOrdenadas, func(ip *ip) int { return ip.parteB })
+	ipsOrdenadas = countingSortIps(ipsOrdenadas, func(ip *ip) int { return ip.parteA })
+	return ipsOrdenadas
+}
+
+// counting sort para ordenar ips según una parte de la ip (A, B, C o D) que se pasa como parámetro
+func countingSortIps(ips []*ip, selecParte func(*ip) int) []*ip {
+	k := RANGO_IP
+	frecuencias := make([]int, k)
+	for _, ip := range ips {
+		parte := selecParte(ip)
+		frecuencias[parte]++
+	}
+	posiciones := make([]int, k)
+	for i := 1; i < k; i++ {
+		posiciones[i] = posiciones[i-1] + frecuencias[i-1]
+	}
+	salida := make([]*ip, len(ips))
+	for _, ip := range ips {
+		parte := selecParte(ip)
+		salida[posiciones[parte]] = ip
+		posiciones[parte]++
+	}
+	return salida
 }
